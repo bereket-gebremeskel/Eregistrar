@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http:/www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate = "~{layout/main-layout}">
+
+<head>
+    <meta charset="ISO-8859-1">
+
+    <title>List Of Students</title>
+</head>
+<body>
+<div layout:fragment="studentList" class="container" >
+    <div class="card" style="    box-shadow: 0px 6px 11px 4px #00000047;border-radius: 15px;">
+        <div class="card-body">
+<!--            <form th:action="@{/student/key}" method="get">-->
+<!--                <input id="txtsearchs" type="text"-->
+<!--                       name="keyWord" placeholder="txtsearch" class="form-control input-sm w-auto inline m-r"/>-->
+<!--                <button type="submit" class="btn btn-primary btn-sm" style="margin-top: 26px;-->
+<!--    margin-left: 22px;">&#xe8b6;Searchkey</button>-->
+<!--            </form>-->
+
+
+
+            <form th:action="@{/student/key}" method="get">
+                <div class="row m-b" style="margin-bottom: 10px;">
+                    <div class="col-lg-2">
+                        Search by Name:  <input id="txtsearchs" type="text"
+                                                name="keyWord" placeholder="txtsearch" class="form-control input-sm w-auto inline m-r"/>
+
+                    </div>
+                    <div class="col-lg-2">
+                        <button type="submit" class="btn btn-primary btn-sm" style="margin-top: 26px;
+    margin-left: 22px;">&#xe8b6;Search</button>
+                    </div>
+                </div>
+            </form>
+            <div class="d-flex justify-content-between">
+                <div>
+                    <a href="/student/new" class="btn btn-primary">Create student</a>
+                </div>
+               <div><h5 ><span th:text="${size}" th:if="${size >0}"></span >
+
+                   <span th:if="${size >0}">       data found</span>
+               <span th:if="${size ==0}"> No data Found</span>
+               </h5></div>
+            </div>
+            <table id="studentTable" class="table table-striped">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>First Name</th>
+                    <th>Middle Name</th>
+                    <th>Last Name</th>
+                    <th>Cgpa</th>
+                    <th>Enrolment Date</th>
+                    <th>International Student</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody >
+                <tr th:each="student,index:${students}">
+                    <td th:text="${index.count}"></td>
+                    <td th:text="${student.firstName}"></td>
+                    <td th:text="${student.middleName}"></td>
+                    <td th:text="${student.lastName}"></td>
+                    <td th:text="${student.cGpa}"></td>
+                    <td th:text="${student.enrollmentDate}"></td>
+<!--                    <td th:text="${student.isInternational}?'Yes':'No'">-->
+<!--                        -->
+<!--                    </td>-->
+                    <td> <input type="checkbox"  class="form-control" th:checked="${student.isInternational}" disabled/></td>
+                    <td>
+
+                        <a th:href="@{'/student/edit/' + ${student.studentId}}">Edit</a>
+                        <a th:href="@{'/student/delete/' + ${student.studentId}}">Delete</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+    <script
+            src="https://code.jquery.com/jquery-2.2.4.min.js"
+            integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+            crossorigin="anonymous"></script>
+    <script th:inline="javascript">
+
+
+    /*<![CDATA[*/
+     var students = /*[[${students }]]*/;
+/*]]>*/
+
+    $('#txtsearch').on('keyup',function(){
+    var value = $(this).val();
+
+     console.log("students",students)
+    var data = FilterFunction(value,students);
+    rebuildTable(data);
+    console.log("key",value)
+    });
+    function FilterFunction(value,data){
+    console.log("data",data)
+    var filterdData=[];
+    for(var i=0;i<data.length;i++){
+    value = value.toLowerCase();
+    var fname = data[i].firstName.toLowerCase();
+    var lname = data[i].lastName.toLowerCase();
+
+    if(fname.includes(value)){
+    filterdData.push(data[i]);
+    }
+    }
+    return filterdData;
+    }
+
+    function rebuildTable(data){
+    var table =  document.getElementById('studentTable').tBodies[0];
+    console.log("innnnn",document.getElementById("studentTable").tBodies[0].innerHTML)
+    table.innerHTML='';
+    var link = /*[[@{/student}]]*/'';
+
+    /*<![CDATA[*/
+    var link = /*[[@{/linkToPage}]]*/'';
+
+ /*]]>*/
+    for(var i=0;i<data.length;i++){
+    var row =`<tr>
+    <td>${data[i].firstName}</td>
+     <td>${data[i].lastName}</td>
+      <td>${data[i].cGpa}</td>
+      <td>${data[i].enrollmentDate}</td>
+      <td></td>
+    </tr>`
+    table.innerHTML +=row;
+    }
+    }
+
+</script>
+</div>
+
+</body>
+</html>

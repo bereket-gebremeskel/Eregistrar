@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http:/www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate = "~{layout/main-layout}">
+
+<head>
+    <meta charset="ISO-8859-1">
+
+    <title>List Of Students</title>
+</head>
+
+<body>
+<div layout:fragment="editStudent" class="container">
+    <div class="card" style="box-shadow: 0px 6px 11px 4px #00000047;
+    border-radius: 15px;">
+        <div class="card-body">
+            <form action="/student/save" method="post" th:object="${student}">
+                <div class="jumbotron" >
+                    <h4 th:if="${student.firstName} == null">Create New Student Information</h4>
+                    <h4 th:if="${student.studentId}">Update Student Information</h4>
+                </div>
+            <div class="row">
+                <input type="hidden" name="studentId" th:value="${student.studentId}" />
+                <div class="col-lg-3 form-group">
+                    <label>Student Number</label>
+                    <input type="text" class="form-control"  th:field="*{studentNumber}" th:value="${student.studentNumber}" placeholder="Enter Student Number..." required/>
+                </div>
+                <div class="col-lg-3">
+                    <label>First Name</label>
+                    <input type="text" class="form-control"  name="firstName" th:value="${student.firstName}" placeholder="Enter First Name..." required/>
+                </div>
+                <div class="col-lg-3">
+                    <label>Middle Name</label>
+                    <input type="text" class="form-control"  name="middleName" th:value="${student.middleName}" placeholder="Enter Middle Name..." required/>
+                </div>
+                <div class="col-lg-3">
+                    <label>Last Name</label>
+                    <input type="text" class="form-control"  name="lastName" th:value="${student.lastName}" placeholder="Enter Last Name..." required/>
+                </div>    <div class="col-lg-3">
+                <label>Cgpa</label>
+                <input type="text" class="form-control"  name="cGpa"  th:value="${student.cGpa}" placeholder="Enter Cgpa" required/>
+            </div>
+                <div class="col-lg-3">
+                    <label>Enrollment Date</label>
+                    <input type="date" class="form-control" th:field="*{enrollmentDate}"  th:value="${student.enrollmentDate}" placeholder="Enter Enrollment Date..." required/>
+                </div>
+                <div class="col-lg-3" style="text-align:center">
+<!--                    <label>Is International Student</label>-->
+                    <label th:for="isInternational" th:text="'Single Checkbox Field:'"></label>
+                    <input type="checkbox"  class="form-control"
+                           th:field="*{isInternational}"
+                           th:value="${student.isInternational}"
+                          />
+<!--                      th:field="*{isInternational}"-->
+<!--                    th:value="${student.isInternational}"-->
+<!--                    name="isInternational"-->
+<!--                    required-->
+<!--                    th:checked="${isInternational}"-->
+                </div>
+                <div class="col-lg-3" style="margin-top: 37px;">
+                    <button type="submit" class="btn btn-sm btn-primary btn-block">Submit</button>
+                </div>
+            </div>
+
+            </form>
+</div>
+        </div>
+
+
+</div>
+</body>
+</html>
