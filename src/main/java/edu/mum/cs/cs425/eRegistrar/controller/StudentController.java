@@ -30,7 +30,9 @@ public class StudentController {
     }
     @PostMapping(value="/student/save")
     public String save(@Valid @ModelAttribute("student") Student student,Model model){
+        System.out.println(student.getIsInternational());
         Student st = iStudentService.save(student);
+
         return "redirect:/student/list";
     }
     @GetMapping(value = "/student/new")

@@ -13,7 +13,7 @@ public interface IStudentRepository extends JpaRepository<Student,Long> {
 //    @Query("FROM Student WHERE firstName LIKE '%b'")
     List<Student> findByFirstName(String firstName);
 
-    @Query(value="select * from students s where s.first_name like %:keyword%",nativeQuery = true)
+    @Query(value="select * from students s where s.first_name like %:keyword% or s.last_name like %:keyword% or s.c_gpa like %:keyword%",nativeQuery = true)
     List<Student> findByKeyWord(@Param("keyword") String keyword);
 //     or e.lastName like %:keyword%
 }

@@ -97,7 +97,7 @@ public class Student {
         return isInternational;
     }
 
-    public void setInternational(boolean isInternational) {
-        isInternational = isInternational;
+    public void setIsInternational(boolean isInternational) {
+        this.isInternational = isInternational;
     }
 }
